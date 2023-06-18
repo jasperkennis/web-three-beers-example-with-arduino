@@ -19,14 +19,16 @@ const Page = () => {
             <img src='svg/logo.svg' alt='logo' />
           </motion.div>
         ) : (
-          <motion.div
-            className='absolute z-10 p-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80'
-            layoutId='logo'>
-            <img src='svg/logo.svg' alt='logo' />
-            <div className='flex items-center justify-center w-full h-[94px]'>
+          <>
+            <motion.div
+              className='absolute z-10 p-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80'
+              layoutId='logo'>
+              <img src='svg/logo.svg' alt='logo' />
+            </motion.div>
+            <div className='absolute z-10 flex items-center justify-center w-full mt-36 h-[94px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
               <span className='loader' />
             </div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
       <div className='absolute z-10 flex flex-col h-screen p-6 pointer-events-none'>

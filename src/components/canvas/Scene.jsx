@@ -26,7 +26,7 @@ export const Scene = ({
         intensity={1.5}
         color='orange'
       />
-      <Suspense fallback={<Loader />}>
+      <Suspense>
         {Array.from(
           { length: count },
           (_, index) => <BeerCan key={index} index={index} z={Math.round(easing(index / count) * depth) + 2} speed={speed} /> /* prettier-ignore */,

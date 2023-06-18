@@ -1,25 +1,22 @@
 import { useItemActive } from '@/hooks/useItemActive';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BEERS } from '@/constants/beers';
-import { isLoaderRunningAtom, isSceneLoadedAtom } from '@/store/app';
-import { useAtom, useAtomValue } from 'jotai';
+import { isSceneLoadedAtom } from '@/store/app';
+import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 
 const Page = () => {
   const { isActive, itemActive } = useItemActive();
 
-  const isLoaderRunning = useAtomValue(isLoaderRunningAtom);
   const [isSceneLoaded, setIsSceneLoaded] = useAtom(isSceneLoadedAtom);
 
   useEffect(() => {
-    if (!isLoaderRunning) return;
-
     const timeout = setTimeout(() => {
       setIsSceneLoaded(true);
-    }, 500);
+    }, 3000);
 
     return () => clearTimeout(timeout);
-  }, [isLoaderRunning, isSceneLoaded, setIsSceneLoaded]);
+  }, [setIsSceneLoaded]);
 
   return (
     <>
@@ -27,8 +24,11 @@ const Page = () => {
         {!isSceneLoaded && (
           <>
             <motion.div
+              className='absolute inset-0 z-10 w-full h-full pointer-events-none bg-default'
+              exit={{ opacity: 0 }}
+            />
+            <motion.div
               className='absolute z-10 p-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80'
-              layoutId='logo'
               exit={{ opacity: 0 }}>
               <img src='svg/logo.svg' alt='logo' />
 

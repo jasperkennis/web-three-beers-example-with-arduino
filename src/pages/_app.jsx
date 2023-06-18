@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import Header from '@/config';
 import { CanvasParent } from '@/components/dom/CanvasParent';
 import '@/styles/index.css';
-import { FadeIn } from '@/components/FadeIn';
 
 const Scene = dynamic(
   () => import('@/components/canvas/Scene').then((module) => module.Scene),
@@ -28,7 +27,6 @@ export default function App({ Component, pageProps = { title: 'index' } }) {
               {Component.canvas(pageProps)}
             </Scene>
           )}
-          <FadeIn />
         </Suspense>
       </CanvasParent>
     </>

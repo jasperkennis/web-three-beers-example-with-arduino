@@ -1,13 +1,24 @@
 import { useItemActive } from '@/hooks/useItemActive';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BEERS } from '@/constants/beers';
-import { isSceneLoadedAtom } from '@/store/app';
-import { useAtomValue } from 'jotai';
+import { isLoaderRunningAtom, isSceneLoadedAtom } from '@/store/app';
+import { useAtom, useAtomValue } from 'jotai';
+import { useEffect } from 'react';
 
 const Page = () => {
   const { isActive, itemActive } = useItemActive();
 
-  const isSceneLoaded = useAtomValue(isSceneLoadedAtom);
+  const isLoaderRunning = useAtomValue(isLoaderRunningAtom);
+  const [isSceneLoaded, setIsSceneLoaded] = useAtom(isSceneLoadedAtom);
+
+  useEffect(() => {
+    if (isLoaderRunning) return;
+    const timeout = setTimeout(() => {
+      setIsSceneLoaded(true);
+    }, 300);
+
+    timeout;
+  }, [isLoaderRunning, isSceneLoaded, setIsSceneLoaded]);
 
   return (
     <>

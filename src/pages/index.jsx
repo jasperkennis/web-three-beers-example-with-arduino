@@ -12,22 +12,18 @@ const Page = () => {
   return (
     <>
       <AnimatePresence>
-        {isSceneLoaded ? (
-          <motion.div
-            className='absolute top-0 left-0 z-10 p-6 w-36'
-            layoutId='logo'>
-            <img src='svg/logo.svg' alt='logo' />
-          </motion.div>
-        ) : (
+        {!isSceneLoaded && (
           <>
             <motion.div
               className='absolute z-10 p-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80'
-              layoutId='logo'>
+              layoutId='logo'
+              exit={{ opacity: 0 }}>
               <img src='svg/logo.svg' alt='logo' />
+
+              <div className='absolute z-10 flex items-center justify-center w-full mt-36 h-[94px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+                <span className='loader' />
+              </div>
             </motion.div>
-            <div className='absolute z-10 flex items-center justify-center w-full mt-36 h-[94px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-              <span className='loader' />
-            </div>
           </>
         )}
       </AnimatePresence>

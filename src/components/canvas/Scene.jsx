@@ -1,10 +1,12 @@
 import { Canvas } from '@react-three/fiber';
 import { Environment } from '@react-three/drei';
 import { EffectComposer } from '@react-three/postprocessing';
+import { Suspense } from 'react';
 import { BeerCan } from './BeerCan';
 import { CameraRig } from './CameraRig';
 import { EffectDepthOfField } from './EffectDepthOfField';
 import { BackgroundColor } from './BackgroundColor';
+import { Loader } from './Loader';
 
 export const Scene = ({
   speed = 0.5,
@@ -23,10 +25,12 @@ export const Scene = ({
       intensity={1.5}
       color='orange'
     />
-    {Array.from(
-      { length: count },
-      (_, index) => <BeerCan key={index} index={index} z={Math.round(easing(index / count) * depth) + 2} speed={speed} /> /* prettier-ignore */,
-    )}
+    <Suspense fallback={<Loader />}>
+      {Array.from(
+        { length: count },
+        (_, index) => <BeerCan key={index} index={index} z={Math.round(easing(index / count) * depth) + 2} speed={speed} /> /* prettier-ignore */,
+      )}
+    </Suspense>
     <Environment files='/img/venice_sunset_1k.hdr' blur={0.8} />
     <EffectComposer multisampling={0}>
       <EffectDepthOfField />

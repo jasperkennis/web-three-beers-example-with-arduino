@@ -1,24 +1,18 @@
-import { useEffect, useState } from 'react';
 import { useItemActive } from '@/hooks/useItemActive';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BEERS } from '@/constants/beers';
+import { isSceneLoadedAtom } from '@/store/app';
+import { useAtomValue } from 'jotai';
 
 const Page = () => {
   const { isActive, itemActive } = useItemActive();
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsLoaded(true);
-    }, 1000);
-
-    return () => clearTimeout(timeout);
-  }, []);
+  const isSceneLoaded = useAtomValue(isSceneLoadedAtom);
 
   return (
     <>
       <AnimatePresence>
-        {isLoaded ? (
+        {isSceneLoaded ? (
           <motion.div
             className='absolute top-0 left-0 z-10 p-6 w-36'
             layoutId='logo'>
@@ -29,6 +23,9 @@ const Page = () => {
             className='absolute z-10 p-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80'
             layoutId='logo'>
             <img src='svg/logo.svg' alt='logo' />
+            <div className='flex items-center justify-center w-full h-[94px]'>
+              <span className='loader' />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

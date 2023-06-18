@@ -1,7 +1,13 @@
-import { Html, useProgress } from '@react-three/drei';
+import { isSceneLoadedAtom } from '@/store/app';
+import { useProgress } from '@react-three/drei';
+import { useSetAtom } from 'jotai';
 
 export const Loader = () => {
   const { progress } = useProgress();
 
-  return <Html center>{progress} % loaded</Html>;
+  const setIsSceneLoaded = useSetAtom(isSceneLoadedAtom);
+
+  if (progress >= 100) {
+    setIsSceneLoaded(true);
+  }
 };

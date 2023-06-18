@@ -1,15 +1,10 @@
 import { Canvas } from '@react-three/fiber';
-import { Environment, Stage } from '@react-three/drei';
+import { Environment } from '@react-three/drei';
 import { EffectComposer } from '@react-three/postprocessing';
 import { BeerCan } from './BeerCan';
 import { CameraRig } from './CameraRig';
 import { EffectDepthOfField } from './EffectDepthOfField';
 import { BackgroundColor } from './BackgroundColor';
-import { suspend } from 'suspend-react';
-
-const sunset = import('@pmndrs/assets/hdri/sunset.exr').then(
-  (module) => module.default,
-);
 
 export const Scene = ({
   speed = 0.5,

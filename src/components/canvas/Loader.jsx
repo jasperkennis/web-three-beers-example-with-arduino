@@ -8,7 +8,9 @@ export const Loader = () => {
   const setIsLoaderRunning = useSetAtom(isLoaderRunningAtom);
   const setIsSceneLoaded = useSetAtom(isSceneLoadedAtom);
 
-  setIsLoaderRunning(true);
+  if (progress > 0) {
+    setIsLoaderRunning(true);
+  }
 
   if (progress >= 100) {
     setIsSceneLoaded(true);

@@ -12,12 +12,13 @@ const Page = () => {
   const [isSceneLoaded, setIsSceneLoaded] = useAtom(isSceneLoadedAtom);
 
   useEffect(() => {
-    if (isLoaderRunning) return;
+    if (!isLoaderRunning) return;
+
     const timeout = setTimeout(() => {
       setIsSceneLoaded(true);
-    }, 300);
+    }, 500);
 
-    timeout;
+    return () => clearTimeout(timeout);
   }, [isLoaderRunning, isSceneLoaded, setIsSceneLoaded]);
 
   return (

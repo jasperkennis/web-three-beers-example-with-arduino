@@ -57,7 +57,7 @@ export const BeerCan = ({ index, z, speed }) => {
     if (ref.current?.id === itemActive?.id) {
       elapsedRotation.current += delta;
 
-      easing.damp3(ref.current.position, [0, 0, 5], 0.4, delta);
+      easing.damp3(ref.current.position, [0, -0.5, 5], 0.4, delta);
 
       easing.dampE(
         ref.current.rotation,

@@ -39,7 +39,7 @@ const Page = () => {
           </>
         )}
       </AnimatePresence>
-      <div className='absolute z-10 flex flex-col h-screen p-6 pointer-events-none'>
+      <div className='absolute z-10 flex flex-col h-screen p-6 pointer-events-none h-[100dvh]'>
         <div className='flex items-end flex-grow w-full md:items-center md:ml-12'>
           <motion.div
             className='w-full p-8 text-black bg-white opacity-25 md:w-1/2 rounded-3xl bg-opacity-40 backdrop-blur-md'

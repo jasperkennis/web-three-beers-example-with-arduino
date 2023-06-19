@@ -6,7 +6,7 @@ import { BeerCan } from './BeerCan';
 import { CameraRig } from './CameraRig';
 import { EffectDepthOfField } from './EffectDepthOfField';
 import { BackgroundColor } from './BackgroundColor';
-import { Loader } from './Loader';
+// import { Loader } from './Loader';
 
 export const Scene = ({
   speed = 0.5,

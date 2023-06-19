@@ -40,9 +40,9 @@ const Page = () => {
         )}
       </AnimatePresence>
       <div className='absolute z-10 flex flex-col h-screen p-6 pointer-events-none'>
-        <div className='flex items-center flex-grow w-full ml-12'>
+        <div className='flex items-end flex-grow w-full md:items-center md:ml-12'>
           <motion.div
-            className='w-1/2 p-8 text-black bg-white opacity-25 rounded-3xl bg-opacity-40 backdrop-blur-md'
+            className='w-full p-8 text-black bg-white opacity-25 md:w-1/2 rounded-3xl bg-opacity-40 backdrop-blur-md'
             animate={{ y: isActive ? 0 : 40, opacity: isActive ? 1 : 0 }}
             initial={false}
             transition={{
@@ -62,7 +62,7 @@ const Page = () => {
                     {BEERS[itemActive?.name]?.title || ''}
                   </motion.h1>
                   <motion.p
-                    className='max-w-2xl mt-4 pointer-events-auto font-body'
+                    className='hidden max-w-2xl mt-4 pointer-events-auto md:inline-block font-body'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}>

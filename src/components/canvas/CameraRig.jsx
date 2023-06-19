@@ -1,5 +1,6 @@
 import { useFrame, useThree } from '@react-three/fiber';
 import { Vector3 } from 'three';
+import { isMobile } from 'react-device-detect';
 
 const FACTOR = 4;
 
@@ -8,6 +9,8 @@ export const CameraRig = () => {
   const vec = new Vector3();
 
   return useFrame(() => {
+    if (isMobile) return;
+
     camera.position.lerp(
       vec.set(
         (mouse.x / FACTOR) * -1,

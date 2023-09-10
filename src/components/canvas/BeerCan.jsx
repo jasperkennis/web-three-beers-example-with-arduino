@@ -1,11 +1,13 @@
+import { useItemActive } from '@/hooks/useItemActive';
+import { serialPortAtom } from '@/store/app';
+import { useAtom } from 'jotai';
 import * as THREE from 'three';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import { easing } from 'maath';
-import { useItemActive } from '@/hooks/useItemActive';
-import { CanFunkyFalcon } from './CanFunkyFalcon';
-import { CanGreenBullet } from './CanGreenBullet';
-import { CanHowlingWolf } from './CanHowlingWolf';
+import { CanFunkyFalcon, ID_FUNKY_FALCON } from './CanFunkyFalcon';
+import { CanGreenBullet, ID_GREEN_BULLET } from './CanGreenBullet';
+import { CanHowlingWolf, ID_HOWLING_WOLF } from './CanHowlingWolf';
 
 const CanRandom = forwardRef(({ index, onClick, ...rest }, ref) => {
   const Cans = {
@@ -20,6 +22,19 @@ const CanRandom = forwardRef(({ index, onClick, ...rest }, ref) => {
 export const BeerCan = ({ index, z, speed }) => {
   const ref = useRef();
 
+  const [serialPort] = useAtom(serialPortAtom);
+
+  const sendMessage = async (message) => {
+    if (!serialPort) {
+      return;
+    }
+
+    const writer = serialPort.writable.getWriter();
+
+    await writer.write(new TextEncoder().encode(message.toString()));
+
+    writer.releaseLock();
+  };
   const { viewport, camera } = useThree();
 
   const { width, height } = viewport.getCurrentViewport(camera, [0, 0, -z]);
@@ -110,6 +125,7 @@ export const BeerCan = ({ index, z, speed }) => {
         -z,
       );
     }
+
     // Rotate the object around
     ref.current.rotation.set(
       (data.rX += delta / data.spin),
@@ -137,6 +153,7 @@ export const BeerCan = ({ index, z, speed }) => {
 
     if (itemActive) {
       setItemInactive();
+      sendMessage('0');
 
       return;
     }
@@ -148,6 +165,20 @@ export const BeerCan = ({ index, z, speed }) => {
     lastPosition.current = event.point;
     dataInteracted.y = event.point.y;
     setItemActive({ id, name, position });
+
+    switch (name) {
+      case ID_HOWLING_WOLF:
+        sendMessage(1);
+        break;
+      case ID_GREEN_BULLET:
+        sendMessage(3);
+        break;
+      case ID_FUNKY_FALCON:
+        sendMessage(2);
+        break;
+      default:
+        sendMessage(0);
+    }
 
     if (!hasInteracted.current) {
       hasInteracted.current = true;

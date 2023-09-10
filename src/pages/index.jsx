@@ -1,14 +1,55 @@
 import { useItemActive } from '@/hooks/useItemActive';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BEERS } from '@/constants/beers';
-import { isSceneLoadedAtom } from '@/store/app';
+import {
+  isSceneLoadedAtom,
+  potentiometerPositionAtom,
+  serialPortAtom,
+} from '@/store/app';
 import { useAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Page = () => {
   const { isActive, itemActive } = useItemActive();
 
+  const [portIsOpen, setPortIsOpen] = useState(false);
+
   const [isSceneLoaded, setIsSceneLoaded] = useAtom(isSceneLoadedAtom);
+  const [serialPort, setSerialPort] = useAtom(serialPortAtom);
+  const [, setPotentiometerPosition] = useAtom(potentiometerPositionAtom);
+
+  const startAConnection = () => {
+    if ('serial' in navigator) {
+      navigator.serial.requestPort().then(async (newPort) => {
+        setSerialPort(newPort);
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!serialPort) {
+      return;
+    }
+    serialPort
+      .open({ baudRate: 9600 /* pick your baud rate */ })
+      .then(async () => {
+        const reader = serialPort.readable.getReader();
+
+        setPortIsOpen(true);
+        while (true) {
+          // eslint-disable-next-line no-await-in-loop
+          const { value, done } = await reader.read();
+
+          if (done) {
+            // Allow the serial port to be closed later.
+            reader.releaseLock();
+          }
+          // value is a Uint8Array.
+          setPotentiometerPosition(value[0]);
+        }
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serialPort]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -20,6 +61,11 @@ const Page = () => {
 
   return (
     <>
+      {!portIsOpen && (
+        <button className=' z-11' onClick={startAConnection}>
+          Start a connection
+        </button>
+      )}
       <AnimatePresence>
         {!isSceneLoaded && (
           <>

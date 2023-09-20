@@ -2,6 +2,10 @@
 
 This demo extends upon Kevins' work with Threejs to expose the experience beyond the browser, into the real world using Arduino. It uses the [experimental SerialPort browser API](https://developer.mozilla.org/en-US/docs/Web/API/SerialPort), currently available in Chrome.
 
+## Exposure
+
+In index.jsx you'll find an example of how the connection the the arduino is created and shared, in this case using useAtom, so that other components in the app can get access to it too.
+
 ## Capabilities
 
 - The potentiometer lets you change the background color. This demonstrates how the Arduino can communicate to the web app.
